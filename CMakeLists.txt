@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.5)
 project(unitree_actuator_sdk)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -14,6 +14,9 @@ else()
 endif()
 
 #example
+add_executable(motor_test hrc/motor_test.cpp)
+target_link_libraries(motor_test ${EXTRA_LIBS})
+
 add_executable(example_a1_motor example/example_a1_motor.cpp)
 target_link_libraries(example_a1_motor ${EXTRA_LIBS})
 
