@@ -29,24 +29,28 @@ return torques;
 int main() {
 
   SerialPort  serial("/dev/ttyUSB0");
-  MotorCmd    cmd;
-  MotorData   data;
-  cmd.mode = queryMotorMode(MotorType::GO_M8010_6,MotorMode::FOC);
-  cmd.kp   = 0.0;
-  cmd.kd   = 0.0;
-  cmd.q    = 0.0;
-  cmd.dq   = 0.0;
+  const int NUM_MOTORS = 6;
+  MotorCmd    cmd[NUM_MOTORS];
+  MotorData   data[NUM_MOTORS];
+
+  for (int i = 0; i < NUM_MOTORS; i++) {
+    cmd[i].motorType = MotorType::GO_M8010_6;
+    data[i].motorType = MotorType::GO_M8010_6;
+    cmd[i].mode = queryMotorMode(MotorType::GO_M8010_6,MotorMode::FOC);
+    cmd[i].id = i;
+    cmd[i].kp = 0.0;
+    cmd[i].kd = 0.0;
+    cmd[i].q = 0.0;
+    cmd[i].dq = 0.0;
+  }
 
   auto torque_table = loadTorques("torques.csv");
-  size_t step = 0
+  size_t step = 0;
 
   while(step < torque_table.size()) {
-    cmd.motorType = MotorType::GO_M8010_6;
-    data.motorType = MotorType::GO_M8010_6;
-    for (int i = 0; i < 6; i++) {
-      cmd.id   = i;
-      cmd.tau  = torque_table[step][i] * queryGearRatio(MotorType::GO_M8010_6);
-      serial.sendRecv(&cmd,&data);
+    for (int i = 0; i < NUM_MOTORS; i++) {
+      cmd[i].tau = torque_table[step][i] * queryGearRatio(MotorType::GO_M8010_6);
+      serial.sendRecv(&cmd[i], &data[i]);
     }
     step++;
     usleep(200);
