@@ -3,12 +3,12 @@ import math
 
 NUM_MOTORS = 6
 DT = 0.0002
-DURATION = 5.0      # seconds
+DURATION = 3.0      # seconds
 
 MODE = "sin"        # "constant" or "sin"
 
-CONST_TORQUE = 0.05 # Nm
-SIN_AMPL = 0.1      # Nm
+CONST_TORQUE = 5    # Nm
+SIN_AMPL = 5        # Nm
 SIN_FREQ = 0.5      # Hz
 
 num_steps = int(DURATION / DT)
