@@ -14,6 +14,9 @@ else()
 endif()
 
 #example
+add_executable(motor_identifier hrc/motor_identifier.cpp)
+target_link_libraries(motor_identifier ${EXTRA_LIBS})
+
 add_executable(motor_test hrc/motor_test.cpp)
 target_link_libraries(motor_test ${EXTRA_LIBS})
 
